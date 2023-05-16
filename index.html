@@ -1,26 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/src/style.css">
-    <title>Tic tac toe</title>
-  </head>
-  <body>
-    <main>
-      <div class="grid">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/src/style.css">
+  <script src="https://kit.fontawesome.com/2847a5c25d.js" crossorigin="anonymous"></script>
+  <title>Tic tac toe</title>
+</head>
+
+<body>
+  <main>
+    <div class="grid">
+      <div class="turn">
+        <i class="fa-solid fa-x turquoise"></i>
+        <p>Player 1, you're up</p>
       </div>
-    </main>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+      <div class="menu">
+        <button class="menu-btn" data-id="menu-button">
+          Actions
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="items border hidden">
+          <button data-id="reset-btn">Reset</button>
+          <button data-id="new-round-btn">New Round</button>
+        </div>
+      </div>
+      <div class="square shadow"></div>
+      <div class="square shadow"></div>
+      <div class="square shadow"></div>
+      <div class="square shadow"></div>
+      <div class="square shadow"></div>
+      <div class="square shadow"></div>
+      <div class="square shadow"></div>
+      <div class="square shadow"></div>
+      <div class="square shadow"></div>
+
+
+      <div class="score shadow" style="background-color: var(--turquoise);">
+        <p>Player 1</p>
+        <span data-id="player-1-stats">0 Wins</span>
+      </div>
+      <div class="score shadow" style="background-color: var(--light-gray);">
+        <p>Ties</p>
+        <span data-id="ties">0</span>
+      </div>
+      <div class="score shadow" style="background-color: var(--yellow);">
+        <p>Player 2</p>
+        <span data-id="player-2-stats">0 Wins</span>
+      </div>
+    </div>
+  </main>
+
+  <div class="modal ">
+    <div class="modal-contents">
+      <p>Player 1 Wins!</p>
+      <button>Play again</button>
+    </div>
+  </div>
+
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
 </html>
