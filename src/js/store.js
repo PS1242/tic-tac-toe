@@ -20,7 +20,6 @@ const winningPatterns = [
 ];
 
 class Store {
-  #state = initialValue;
   #winningPatterns = winningPatterns;
 
   constructor(players, key) {
@@ -100,10 +99,18 @@ class Store {
     this.#saveState(sclone);
   }
 
-  newRound() {}
+  newRound() {
+    this.reset();
+    const sclone = structuredClone(this.#getState());
+    sclone.history.allGames.push(...sclone.history.currentGames);
+    sclone.history.currentGames = [];
+
+    this.#saveState(sclone);
+  }
 
   #getState() {
-    return this.#state;
+    const data = localStorage.getItem(this.storageKey);
+    return data ? JSON.parse(data) : initialValue;
   }
 
   #saveState(stateOrFn) {
@@ -120,7 +127,7 @@ class Store {
         throw new Error("Invalid argument passed to saveState");
     }
 
-    this.#state = newState;
+    localStorage.setItem(this.storageKey, JSON.stringify(newState));
   }
 }
 

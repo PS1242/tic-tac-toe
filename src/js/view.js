@@ -70,6 +70,15 @@ class View {
     this.$.squares.forEach((sq) => (sq.innerHTML = ""));
   }
 
+  initializeMoves(moves) {
+    this.$.squares.forEach((sq) => {
+      const existingMove = moves.find((move) => move.squareId === +sq.id);
+      if (existingMove) {
+        this.handlePlayerMove(sq, existingMove.player);
+      }
+    });
+  }
+
   updateScoreBoard(p1wins, p2wins, ties) {
     this.$.p1stats.innerText = `${p1wins} Wins`;
     this.$.p2stats.innerText = `${p2wins} Wins`;

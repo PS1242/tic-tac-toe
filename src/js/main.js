@@ -20,22 +20,28 @@ function init() {
   const view = new View();
   const store = new Store(players, STORE_KEY);
 
-  view.bindGameResetEvent((e) => {
+  function initView() {
     view.closeModal();
     view.closeMenu();
     view.clearBoard();
-    store.reset();
     view.setTurnIndicator(store.game.currPlayer);
-
     view.updateScoreBoard(
       store.stats.playerWithStats[0].wins,
       store.stats.playerWithStats[1].wins,
       store.stats.ties
     );
+    view.initializeMoves(store.game.moves);
+  }
+
+  initView();
+
+  view.bindGameResetEvent((e) => {
+    store.reset();
+    initView();
   });
   view.bindNewRoundEvent((e) => {
-    console.log("New round");
-    console.log(e);
+    store.newRound();
+    initView();
   });
   view.bindPlayerMoveEvent((e) => {
     const target = e.currentTarget;
@@ -57,8 +63,6 @@ function init() {
       }
       return;
     }
-
-    // console.log(store.game);
 
     view.setTurnIndicator(store.game.currPlayer);
   });
