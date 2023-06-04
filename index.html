@@ -13,10 +13,12 @@
 <body>
   <main>
     <div class="grid">
-      <div class="turn yellow" data-id="turn">
-        <i class="fa-solid fa-x"></i>
-        <p>Player 1, you're up</p>
+      <!-- Turn indicator -->
+      <div class="turn" data-id="turn">
+        <i class="fa-solid fa-x yellow"></i>
+        <p class="yellow">Player 1, you're up</p>
       </div>
+      <!-- Menu -->
       <div class="menu" data-id="menu">
         <button class="menu-btn" data-id="menu-button">
           Actions
@@ -27,6 +29,7 @@
           <button data-id="new-round-btn">New Round</button>
         </div>
       </div>
+      <!-- Board -->
       <div id="1" class="square shadow" data-id="square"></div>
       <div id="2" class="square shadow" data-id="square"></div>
       <div id="3" class="square shadow" data-id="square"></div>
@@ -37,9 +40,10 @@
       <div id="8" class="square shadow" data-id="square"></div>
       <div id="9" class="square shadow" data-id="square"></div>
 
+      <!-- Scoreboard -->
       <div class="score shadow" style="background-color: var(--turquoise)">
         <p>Player 1</p>
-        <span data-id="player-1-stats">0 Wins</span>
+        <span data-id="p1-stats">0 Wins</span>
       </div>
       <div class="score shadow" style="background-color: var(--light-gray)">
         <p>Ties</p>
@@ -47,7 +51,7 @@
       </div>
       <div class="score shadow" style="background-color: var(--yellow)">
         <p>Player 2</p>
-        <span data-id="player-2-stats">0 Wins</span>
+        <span data-id="p2-stats">0 Wins</span>
       </div>
     </div>
   </main>
@@ -59,7 +63,7 @@
     </div>
   </div>
 
-  <script type="module" src="/src/main.ts"></script>
+  <script type="module" src="/src/js/main.js"></script>
 </body>
 
 </html>
