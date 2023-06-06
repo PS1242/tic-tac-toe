@@ -33,6 +33,10 @@ function init() {
     view.initializeMoves(store.game.moves);
   }
 
+  window.addEventListener("storage", () => {
+    initView();
+  });
+
   initView();
 
   view.bindGameResetEvent((e) => {
