@@ -22,6 +22,31 @@ class View {
     });
   }
 
+  render(game, stats) {
+    const { playerWithStats, ties } = stats;
+    const {
+      moves,
+      currPlayer,
+      status: { isGameOver, winner },
+    } = game;
+
+    this.#closeMenu();
+    this.#closeModal();
+    this.#clearBoard();
+    this.#updateScoreBoard(
+      playerWithStats[0].wins,
+      playerWithStats[1].wins,
+      ties
+    );
+    this.#initializeMoves(moves);
+
+    if (isGameOver) {
+      this.#openModal(winner ? `${winner.name} wins!` : "Tie game!");
+      return;
+    }
+    this.#setTurnIndicator(currPlayer);
+  }
+
   #qs(selector, parent = document) {
     const el = parent.querySelector(selector);
     if (!el) {
@@ -47,7 +72,7 @@ class View {
     icon.classList.toggle("fa-chevron-up");
   }
 
-  closeMenu() {
+  #closeMenu() {
     this.$.menuItems.classList.add("hidden");
     this.$.menuBtn.classList.remove("border");
 
@@ -57,43 +82,43 @@ class View {
     icon.classList.remove("fa-chevron-up");
   }
 
-  openModal(message) {
+  #openModal(message) {
     this.$.modal.classList.remove("hidden");
     this.$.modalText.innerText = message;
   }
 
-  closeModal() {
+  #closeModal() {
     this.$.modal.classList.add("hidden");
   }
 
-  clearBoard() {
+  #clearBoard() {
     this.$.squares.forEach((sq) => (sq.innerHTML = ""));
   }
 
-  initializeMoves(moves) {
+  #initializeMoves(moves) {
     this.$.squares.forEach((sq) => {
       const existingMove = moves.find((move) => move.squareId === +sq.id);
       if (existingMove) {
-        this.handlePlayerMove(sq, existingMove.player);
+        this.#handlePlayerMove(sq, existingMove.player);
       }
     });
   }
 
-  updateScoreBoard(p1wins, p2wins, ties) {
+  #updateScoreBoard(p1wins, p2wins, ties) {
     this.$.p1stats.innerText = `${p1wins} Wins`;
     this.$.p2stats.innerText = `${p2wins} Wins`;
     this.$.ties.innerText = `${ties}`;
   }
 
   // puts icon inside the sqaure box
-  handlePlayerMove(squareEl, player) {
+  #handlePlayerMove(squareEl, player) {
     const icon = document.createElement("i");
     icon.classList.add("fa-solid", player.iconClass, player.colorClass);
     squareEl.replaceChildren(icon);
   }
 
   // update icon and label in the turn section
-  setTurnIndicator(player) {
+  #setTurnIndicator(player) {
     const icon = document.createElement("i");
     const label = document.createElement("p");
 
