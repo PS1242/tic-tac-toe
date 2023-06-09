@@ -20,6 +20,11 @@ function init() {
   const view = new View();
   const store = new Store(players, STORE_KEY);
 
+  store.addEventListener("store_updated", () => {
+    view.render(store.game, store.stats);
+  });
+
+  // This is to play in a different tab
   window.addEventListener("storage", () => {
     view.render(store.game, store.stats);
   });
@@ -30,13 +35,11 @@ function init() {
   // Handler for game reset
   view.bindGameResetEvent((e) => {
     store.reset();
-    view.render(store.game, store.stats);
   });
 
   // Handler for new round
   view.bindNewRoundEvent((e) => {
     store.newRound();
-    view.render(store.game, store.stats);
   });
 
   // Handler for player move
@@ -47,10 +50,10 @@ function init() {
       (move) => move.squareId === +target.id
     );
     // return if the current box is already filled
-    if (squareAlreadyFilled) return;
-
+    if (squareAlreadyFilled) {
+      return;
+    }
     store.updateMoves(parseInt(target.id));
-    view.render(store.game, store.stats);
   });
 }
 

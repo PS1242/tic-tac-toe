@@ -19,10 +19,11 @@ const winningPatterns = [
   [7, 8, 9],
 ];
 
-class Store {
+class Store extends EventTarget {
   #winningPatterns = winningPatterns;
 
   constructor(players, key) {
+    super();
     this.storageKey = key;
     this.players = players;
   }
@@ -85,7 +86,6 @@ class Store {
 
   reset() {
     const sclone = structuredClone(this.#getState());
-
     const { status, moves } = this.game;
 
     if (status.isGameOver) {
@@ -94,7 +94,6 @@ class Store {
         status,
       });
     }
-
     sclone.moves = [];
     this.#saveState(sclone);
   }
@@ -104,7 +103,6 @@ class Store {
     const sclone = structuredClone(this.#getState());
     sclone.history.allGames.push(...sclone.history.currentGames);
     sclone.history.currentGames = [];
-
     this.#saveState(sclone);
   }
 
@@ -126,8 +124,8 @@ class Store {
       default:
         throw new Error("Invalid argument passed to saveState");
     }
-
     localStorage.setItem(this.storageKey, JSON.stringify(newState));
+    this.dispatchEvent(new Event("store_updated"));
   }
 }
 
