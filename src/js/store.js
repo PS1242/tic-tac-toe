@@ -125,6 +125,8 @@ class Store extends EventTarget {
         throw new Error("Invalid argument passed to saveState");
     }
     localStorage.setItem(this.storageKey, JSON.stringify(newState));
+
+    // Dispatch our custom event when store state is updated
     this.dispatchEvent(new Event("store_updated"));
   }
 }
