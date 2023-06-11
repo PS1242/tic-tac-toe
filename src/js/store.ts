@@ -1,10 +1,14 @@
-const initialValue = {
+import type { GameState, Player } from "./types";
+
+const initialValue: GameState = {
   moves: [],
   history: {
     currentGames: [],
     allGames: [],
   },
 };
+
+type SaveStateCb = (prevState: GameState) => GameState;
 
 export const STORE_KEY = "t3-store";
 
@@ -22,10 +26,11 @@ const winningPatterns = [
 class Store extends EventTarget {
   #winningPatterns = winningPatterns;
 
-  constructor(players, key) {
+  constructor(
+    private readonly players: Player[],
+    private readonly storageKey: string
+  ) {
     super();
-    this.storageKey = key;
-    this.players = players;
   }
 
   get stats() {
@@ -75,7 +80,7 @@ class Store extends EventTarget {
     };
   }
 
-  updateMoves(squareId) {
+  updateMoves(squareId: number) {
     const stateClone = structuredClone(this.#getState());
     stateClone.moves.push({
       squareId,
@@ -100,7 +105,7 @@ class Store extends EventTarget {
 
   newRound() {
     this.reset();
-    const sclone = structuredClone(this.#getState());
+    const sclone = structuredClone(this.#getState()) as GameState;
     sclone.history.allGames.push(...sclone.history.currentGames);
     sclone.history.currentGames = [];
     this.#saveState(sclone);
@@ -108,10 +113,10 @@ class Store extends EventTarget {
 
   #getState() {
     const data = localStorage.getItem(this.storageKey);
-    return data ? JSON.parse(data) : initialValue;
+    return data ? (JSON.parse(data) as GameState) : initialValue;
   }
 
-  #saveState(stateOrFn) {
+  #saveState(stateOrFn: GameState | SaveStateCb) {
     const prevState = this.#getState();
     let newState;
     switch (typeof stateOrFn) {

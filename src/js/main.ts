@@ -1,7 +1,8 @@
 import View from "./view";
 import Store, { STORE_KEY } from "./store";
+import { Player } from "./types";
 
-const players = [
+const players: Player[] = [
   {
     id: 1,
     name: "Player 1",
@@ -33,27 +34,27 @@ function init() {
   view.render(store.game, store.stats);
 
   // Handler for game reset
-  view.bindGameResetEvent((e) => {
+  view.bindGameResetEvent(() => {
     store.reset();
   });
 
   // Handler for new round
-  view.bindNewRoundEvent((e) => {
+  view.bindNewRoundEvent(() => {
     store.newRound();
   });
 
   // Handler for player move
   view.bindPlayerMoveEvent((e) => {
-    const target = e.currentTarget;
+    const target = e.currentTarget as Element;
 
     const squareAlreadyFilled = store.game.moves.find(
-      (move) => move.squareId === +target.id
+      (move) => move.squareId === +target?.id
     );
     // return if the current box is already filled
     if (squareAlreadyFilled) {
       return;
     }
-    store.updateMoves(parseInt(target.id));
+    store.updateMoves(+target?.id);
   });
 }
 
